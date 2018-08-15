@@ -29,15 +29,11 @@ export default class SoonList extends Component {
         return response.json();
       }).then((responseText) => {
         let arrData = responseText.subjects;
-        let i = 0;
         let arrList = [];
         arrData.map((item, index) => {
           arrList.push({ key: index.toString(), value: item });
         })
-
         this.setState({ movies: arrList, ready: false, refreshing: false });
-        // console.log(this.state);
-
       }).catch((error) => {
         console.error(error);
       });
