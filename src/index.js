@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
-import { StyleSheet, View, Text } from 'react-native'
-
 import Icon from "react-native-vector-icons/Ionicons"
 
-import MovieList from './components/MovieList';
+import HotList from './components/HotList';
 import Mine from './components/Mine';
+import Seek from './components/Seek';
+import Search from './components/Search';
 
 const BottomTab = createBottomTabNavigator({
   MovieList: {
-    screen: MovieList,
+    screen: HotList,
     navigationOptions: {
       tabBarLabel: '热映',
       tabBarIcon: ({ tintColor }) => (
@@ -18,12 +18,12 @@ const BottomTab = createBottomTabNavigator({
       ),
     },
   },
-  Photo: {
+  Seek: {
     screen: Seek,
     navigationOptions: {
-      tabBarLabel: '照片',
+      tabBarLabel: 'xxx',
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="iso-eye" size={20} color={tintColor} />
+        <Icon name="ios-eye" size={20} color={tintColor} />
       ),
     },
   },
@@ -32,7 +32,7 @@ const BottomTab = createBottomTabNavigator({
     navigationOptions: {
       tabBarLabel: '我的',
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="ios-user" size={20} color={tintColor} />
+        <Icon name="ios-person" size={20} color={tintColor} />
       ),
     },
   }
@@ -55,8 +55,14 @@ const BottomTab = createBottomTabNavigator({
   });
 
 const MyApp = createStackNavigator({
-  Home: BottomTab,
-  Detail: BottomTab
+  Home: {
+    screen: BottomTab,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Detail: BottomTab,
+  Search
 }, {
     headerMode: 'screen'
   });
