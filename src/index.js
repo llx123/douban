@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/Ionicons"
 
 import HotList from './components/HotList';
 import Mine from './components/Mine';
+import Detail from './components/Detail';
 import Seek from './components/Seek';
 import Search from './components/Search';
 
@@ -61,7 +62,7 @@ const MyApp = createStackNavigator({
       header: null
     }
   },
-  Detail: BottomTab,
+  Detail,
   Search
 }, {
     headerMode: 'screen'
