@@ -15,14 +15,14 @@ const BottomTab = createBottomTabNavigator({
     navigationOptions: {
       tabBarLabel: '热映',
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="ios-tv" size={20} color={tintColor} />
+        <Icon name="ios-laptop" size={20} color={tintColor} />
       ),
     },
   },
   Seek: {
     screen: Seek,
     navigationOptions: {
-      tabBarLabel: 'xxx',
+      tabBarLabel: '找片',
       tabBarIcon: ({ tintColor }) => (
         <Icon name="ios-eye" size={20} color={tintColor} />
       ),
