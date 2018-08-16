@@ -67,6 +67,7 @@ export default class MyComponent extends Component {
               size={15}
               color="#8B8B8B" />
             <TextInput
+              style={{width: 200, padding: 0}}
               placeholder="搜索电影/电视"
               onChangeText={(text) => this.fullData(text)}
               underlineColorAndroid="transparent"
@@ -124,7 +125,7 @@ export default class MyComponent extends Component {
                 </TouchableOpacity>
               )
             }}
-            keyExtractor={(item, index) => index}
+            keyExtractor={(item, index) => index.toString()}
           />
         }
       </View>

@@ -25,7 +25,7 @@ export default class SearchInput extends Component {
           </TouchableOpacity>
         }
 
-        <TouchableOpacity style={styles.search} onPress={() => navigate('SearchIng')}>
+        <TouchableOpacity style={styles.search} onPress={() => navigate('Search')}>
           <Text style={{
             textAlign: 'center',
             lineHeight: 25,
