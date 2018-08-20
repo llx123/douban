@@ -26,14 +26,14 @@ export default class HotList extends Component {
     this.fetchData();
   }
   fetchData = () => {
-    fetch('https://api.douban.com/v2/movie/in_theaters')      
+    fetch('https://api.douban.com/v2/movie/in_theaters')
       .then((response) => {
         this.setState({ refreshing: false });
         return response.json();
       }).then((responseText) => {
-        let arrData = responseText.subjects;        
-        let arrList = [];        
-        arrData.map((item,index) => {
+        let arrData = responseText.subjects;
+        let arrList = [];
+        arrData.map((item, index) => {
           arrList.push({ key: index.toString(), value: item });
         })
         this.setState({ movies: arrList, ready: false, refreshing: false });
@@ -45,6 +45,8 @@ export default class HotList extends Component {
     this.setState({ refreshing: true });
     this.fetchData();
   }
+  filterCount = (count) => count > 10000 ? (count / 10000).toFixed(1) + '万' : count
+
   render() {
     const { navigate } = this.props.navigation;
     const { movies } = this.state;
@@ -86,23 +88,30 @@ export default class HotList extends Component {
                   }}>
                     <Text style={styles.title}>{item.value.title}
                     </Text>
-                    <View style={{ marginTop: 3, marginBottom: 3 }}>
+                    <View style={styles.star}>
                       <Star value={item.value.rating.stars} />
+                      <Text style={styles.smallFont}>{(item.value.rating.stars / 10).toFixed(1) + '分'}</Text>
                     </View>
                     <Text style={styles.smallFont}>导演：{item.value.directors[0].name}</Text>
                     <Text style={styles.smallFont}>主演：{item.value.casts.map((v) => v.name).join('/')}</Text>
-                    <Text style={{
-                      lineHeight: 20,
-                      fontSize: 13
-                    }}>{item.value.collect_count}人看过</Text>
+
                   </View>
                   <View style={{
-                    flex: 0
+                    flex: 0,
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}>
+                    <Text style={{
+                      lineHeight: 20,
+                      fontSize: 10,
+                      color: '#FF4E65'
+                    }}>{this.filterCount(item.value.collect_count)}人看过</Text>
                     <TouchableOpacity onPress={() => alert('购票')} style={styles.pay}>
                       <Text style={{
                         color: '#FF4E65',
-                        fontWeight: '900'
+                        fontSize: 14,
+                        fontWeight: '600',
                       }}>购票</Text>
                     </TouchableOpacity>
                   </View>
@@ -116,9 +125,9 @@ export default class HotList extends Component {
 
 const styles = StyleSheet.create({
   smallFont: {
-    lineHeight: 20,
+    lineHeight: 15,
     color: '#A6A6A6',
-    fontSize: 12
+    fontSize: 10
   },
   loadding: {
     marginTop: 100
@@ -130,8 +139,8 @@ const styles = StyleSheet.create({
   },
   hotList: {
     height: 130,
-    paddingLeft: 18,
-    paddingRight: 18,
+    paddingLeft: 10,
+    paddingRight: 10,
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
@@ -141,13 +150,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0
   },
   title: {
-    fontWeight: '900',
+    fontWeight: '600',
     fontSize: 15
   },
+  star: {
+    display:'flex',
+    flexDirection: 'row',
+    marginTop: 3,
+    marginBottom: 3,
+  },
   pay: {
-    width: 50,
+    width: 52,
     height: 25,
-    marginLeft: 20,
+    marginTop: 3,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,

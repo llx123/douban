@@ -47,7 +47,7 @@ export default class Star extends Component {
   }
   render() {
     return (
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', marginRight: 5 }}>
         {this.starRender(this.props)}
       </View>
     );
