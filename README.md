@@ -1,5 +1,9 @@
-# react-native-douban-android
-## 2018
+# ReactNative 仿2018豆瓣电影-Android
+## 运行
+ - 先确保你已安装好了React Native 所需的依赖环境 并且连接移动(虚拟)设备
+ - 在根目录下执行 npm install
+ - 在执行 react-native run-android
+```
 ├── README.md
 ├── index.js
 ├── app.json
@@ -22,3 +26,4 @@
 │  ├── img                                                  图片资源
 │  └── index.js                                             navigation配置
 └── yarn.lock
+```
