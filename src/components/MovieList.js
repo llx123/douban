@@ -90,7 +90,7 @@ export default class HotList extends Component {
                     </Text>
                     <View style={styles.star}>
                       <Star value={item.value.rating.stars} />
-                      <Text style={styles.smallFont}>{(item.value.rating.stars / 10).toFixed(1) + '分'}</Text>
+                      {item.value.rating.stars>0&&<Text style={styles.smallFont}>{(item.value.rating.stars / 10).toFixed(1) + '分'}</Text>}
                     </View>
                     <Text style={styles.smallFont}>导演：{item.value.directors[0].name}</Text>
                     <Text style={styles.smallFont}>主演：{item.value.casts.map((v) => v.name).join('/')}</Text>

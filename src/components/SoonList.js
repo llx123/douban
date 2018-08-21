@@ -86,19 +86,24 @@ export default class SoonList extends Component {
                       <Text style={styles.title}>{item.value.title}
                       </Text>
                       <Text style={styles.smallFont}>导演：{item.value.directors[0].name}</Text>
-                      <Text style={styles.smallFont}>主演：{item.value.casts.map((v) => v.name).join('/')}</Text>
-                      <Text style={{
-                        lineHeight: 20,
-                        fontSize: 13
-                      }}>{item.value.collect_count}人想看</Text>
+                      <Text style={styles.smallFont}>主演：{item.value.casts.map((v) => v.name).join('/')}</Text>                      
                     </View>
                     <View style={{
-                      flex: 0
+                      flex: 0,
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
                     }}>
+                      <Text style={{
+                        lineHeight: 20,
+                        fontSize: 10,
+                        color: '#FFAE31',
+                      }}>{item.value.collect_count}人想看</Text>
                       <TouchableOpacity onPress={() => alert('想看')} style={styles.pay}>
                         <Text style={{
                           color: '#FFAE31',
-                          fontWeight: '900'
+                          fontSize: 14,
+                          fontWeight: '600',
                         }}>想看</Text>
                       </TouchableOpacity>
                     </View>
@@ -130,8 +135,8 @@ const styles = StyleSheet.create({
   },
   hotList: {
     height: 130,
-    paddingLeft: 18,
-    paddingRight: 18,
+    paddingLeft: 10,
+    paddingRight: 10,
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
@@ -147,7 +152,7 @@ const styles = StyleSheet.create({
   pay: {
     width: 50,
     height: 25,
-    marginLeft: 20,
+    marginTop: 3,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
