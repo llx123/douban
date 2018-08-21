@@ -79,7 +79,8 @@ export default class SoonList extends Component {
                         height: 100
                       }} />
                     </View>
-                    <View style={{
+                    <View style={{                      
+                      height: 100,
                       flex: 2,
                       alignItems: 'flex-start'
                     }}>
@@ -119,9 +120,9 @@ export default class SoonList extends Component {
 
 const styles = StyleSheet.create({
   smallFont: {
-    lineHeight: 20,
+    lineHeight: 18,
     color: '#A6A6A6',
-    fontSize: 12
+    fontSize: 10
   },
   loadding: {
     marginTop: 100

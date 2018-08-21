@@ -83,8 +83,9 @@ export default class HotList extends Component {
                     }} />
                   </View>
                   <View style={{
+                    height: 100,
                     flex: 2,
-                    alignItems: 'flex-start'
+                    alignItems: 'flex-start',
                   }}>
                     <Text style={styles.title}>{item.value.title}
                     </Text>
@@ -94,7 +95,6 @@ export default class HotList extends Component {
                     </View>
                     <Text style={styles.smallFont}>导演：{item.value.directors[0].name}</Text>
                     <Text style={styles.smallFont}>主演：{item.value.casts.map((v) => v.name).join('/')}</Text>
-
                   </View>
                   <View style={{
                     flex: 0,
@@ -125,7 +125,7 @@ export default class HotList extends Component {
 
 const styles = StyleSheet.create({
   smallFont: {
-    lineHeight: 15,
+    lineHeight: 18,
     color: '#A6A6A6',
     fontSize: 10
   },
