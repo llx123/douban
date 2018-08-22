@@ -51,7 +51,7 @@ export default class HotList extends Component {
     const { navigate } = this.props.navigation;
     const { movies } = this.state;
     return (
-      <View>
+      <View style={{paddingBottom: 50}}>
         {this.state.ready
           ? <ActivityIndicator size="large" style={styles.loadding} />
           : <FlatList
