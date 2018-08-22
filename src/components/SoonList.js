@@ -15,7 +15,9 @@ export default class SoonList extends Component {
     this.state = {
       ready: true,
       refreshing: false,
-      movies: []
+      movies: [],
+      sortByMonth: 0,
+      sortByOther: 0
     }
   }
 
@@ -31,7 +33,7 @@ export default class SoonList extends Component {
         let arrData = responseText.subjects;
         let arrList = [];
         arrData.map((item, index) => {
-          arrList.push({ title: index.toString(), data: [item] });
+          arrList.push({ title: item.year + '-' + item.title, data: [item], key: index.toString() });
         })
         this.setState({ movies: arrList, ready: false, refreshing: false });
       }).catch((error) => {
@@ -45,8 +47,52 @@ export default class SoonList extends Component {
   render() {
     const { movies } = this.state;
     const { navigate } = this.props.navigation;
+    const m = new Date().getMonth() + 1; // 获取当前月份
     return (
-      <View>
+      <View style={{paddingBottom: 100}}>
+        {!this.state.ready && <View style={styles.topContent}>
+          <View style={styles.topLeft}>
+            <Text
+              style={[styles.nav, this.state.sortByMonth === 0 && styles.active]}
+              onPress={() => {
+                this.setState({ sortByMonth: 0, refreshing: true, ready: true })
+                this.fetchData()
+              }}
+            >全部</Text>
+            <Text style={[styles.nav, this.state.sortByMonth === 1 && styles.active]}
+              onPress={() => {
+                this.setState({ sortByMonth: 1, refreshing: true, ready: true })
+                this.fetchData()
+              }}
+            >{`${m}月`}</Text>
+            <Text style={[styles.nav, this.state.sortByMonth === 2 && styles.active]}
+              onPress={() => {
+                this.setState({ sortByMonth: 2, refreshing: true, ready: true })
+                this.fetchData()
+              }}
+            >{`${m + 1}月`}</Text>
+            <Text style={[styles.nav, this.state.sortByMonth === 3 && styles.active]}
+              onPress={() => {
+                this.setState({ sortByMonth: 3, refreshing: true, ready: true })
+                this.fetchData()
+              }}
+            >{`${m + 2}月`}</Text>
+          </View>
+          <View style={styles.topRight}>
+            <Text style={[styles.nav, this.state.sortByOther === 0 && styles.active]}
+              onPress={() => {
+                this.setState({ sortByOther: 0, refreshing: true, ready: true })
+                this.fetchData()
+              }}
+            >时间</Text>
+            <Text style={[styles.nav, this.state.sortByOther === 1 && styles.active]}
+              onPress={() => {
+                this.setState({ sortByOther: 1, refreshing: true, ready: true })
+                this.fetchData()
+              }}
+            >热度</Text>
+          </View>
+        </View>}
         {
           this.state.ready
             ? <ActivityIndicator size="large" style={styles.loadding} />
@@ -57,13 +103,13 @@ export default class SoonList extends Component {
               stickySectionHeadersEnabled={true}
               keyExtractor={(item, index) => item + index}
               renderSectionHeader={({ section: { title } }) => (
-                <Text style={{ fontWeight: "bold", backgroundColor: '#cccccc' }}>{title}</Text>
+                <Text style={styles.sectionHeader}>{title}</Text>
               )}
               renderItem={({ item, index, section }) => {
                 return (
                   <TouchableOpacity
                     style={[
-                      styles.hotList, item.title + 1 == movies.length && styles.lastList
+                      styles.hotList, item.key + 1 == movies.length && styles.lastList
                     ]}
                     key={index.toString()}
                     onPress={() => navigate('Detail', {
@@ -90,7 +136,7 @@ export default class SoonList extends Component {
                       <Text style={styles.title}>{item.title}
                       </Text>
                       <Text style={styles.smallFont}>导演：{item.directors[0].name}</Text>
-                      <Text style={styles.smallFont}>主演：{item.casts.map((v) => v.name).join('/')}</Text>                      
+                      <Text style={styles.smallFont}>主演：{item.casts.map((v) => v.name).join('/')}</Text>
                     </View>
                     <View style={{
                       flex: 0,
@@ -129,6 +175,36 @@ const styles = StyleSheet.create({
   },
   loadding: {
     marginTop: 100
+  },
+  topContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginTop: 10,
+    marginBottom: 10
+  },
+  nav: {
+    paddingLeft: 5,
+    paddingRight: 5,
+    lineHeight: 16,
+    color: '#A6A6A6',
+  },
+  active: {
+    color: '#000'
+  },
+  topLeft: {
+    flexDirection: 'row',
+  },
+  topRight: {
+    flexDirection: 'row',
+    borderLeftWidth: 1,
+  },
+  sectionHeader: {
+    lineHeight: 26,
+    paddingLeft: 10,
+    fontWeight: "bold",
+    backgroundColor: '#eee',
   },
   star: {
     width: 12,
