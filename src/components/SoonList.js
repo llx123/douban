@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity,
   Image,
-  FlatList,
+  SectionList,
   ActivityIndicator
 } from 'react-native';
 
@@ -26,12 +26,12 @@ export default class SoonList extends Component {
     fetch('https://api.douban.com/v2/movie/coming_soon')
       .then((response) => {
         this.setState({ refreshing: false });
-        return response.json();
+        return response.json(); //
       }).then((responseText) => {
         let arrData = responseText.subjects;
         let arrList = [];
         arrData.map((item, index) => {
-          arrList.push({ key: index.toString(), value: item });
+          arrList.push({ title: index.toString(), data: [item] });
         })
         this.setState({ movies: arrList, ready: false, refreshing: false });
       }).catch((error) => {
@@ -50,20 +50,24 @@ export default class SoonList extends Component {
         {
           this.state.ready
             ? <ActivityIndicator size="large" style={styles.loadding} />
-            : <FlatList
-              data={movies}
+            : <SectionList
+              sections={movies}
               onRefresh={this.refreshData}
               refreshing={this.state.refreshing}
-              key={movies.key}
-              renderItem={({ item }) => {
+              stickySectionHeadersEnabled={true}
+              keyExtractor={(item, index) => item + index}
+              renderSectionHeader={({ section: { title } }) => (
+                <Text style={{ fontWeight: "bold", backgroundColor: '#cccccc' }}>{title}</Text>
+              )}
+              renderItem={({ item, index, section }) => {
                 return (
                   <TouchableOpacity
                     style={[
-                      styles.hotList, item.key + 1 == movies.length && styles.lastList
+                      styles.hotList, item.title + 1 == movies.length && styles.lastList
                     ]}
-                    key={item.value.id}
+                    key={index.toString()}
                     onPress={() => navigate('Detail', {
-                      id: item.value.id,
+                      id: item.id,
                       callback: (data) => {
                         this.setState({ childState: data })
                       }
@@ -73,21 +77,20 @@ export default class SoonList extends Component {
                       flex: 1
                     }}>
                       <Image source={{
-                        uri: item.value.images.large.replace('webp', 'png')
+                        uri: item.images.large.replace('webp', 'png')
                       }} style={{
                         width: 80,
                         height: 100
                       }} />
                     </View>
-                    <View style={{                      
-                      height: 100,
+                    <View style={{
                       flex: 2,
                       alignItems: 'flex-start'
                     }}>
-                      <Text style={styles.title}>{item.value.title}
+                      <Text style={styles.title}>{item.title}
                       </Text>
-                      <Text style={styles.smallFont}>导演：{item.value.directors[0].name}</Text>
-                      <Text style={styles.smallFont}>主演：{item.value.casts.map((v) => v.name).join('/')}</Text>                      
+                      <Text style={styles.smallFont}>导演：{item.directors[0].name}</Text>
+                      <Text style={styles.smallFont}>主演：{item.casts.map((v) => v.name).join('/')}</Text>                      
                     </View>
                     <View style={{
                       flex: 0,
@@ -99,7 +102,7 @@ export default class SoonList extends Component {
                         lineHeight: 20,
                         fontSize: 10,
                         color: '#FFAE31',
-                      }}>{item.value.collect_count}人想看</Text>
+                      }}>{item.collect_count}人想看</Text>
                       <TouchableOpacity onPress={() => alert('想看')} style={styles.pay}>
                         <Text style={{
                           color: '#FFAE31',
@@ -120,9 +123,9 @@ export default class SoonList extends Component {
 
 const styles = StyleSheet.create({
   smallFont: {
-    lineHeight: 18,
+    lineHeight: 20,
     color: '#A6A6A6',
-    fontSize: 10
+    fontSize: 12
   },
   loadding: {
     marginTop: 100
