@@ -28,7 +28,7 @@ export default class SoonList extends Component {
     fetch('https://api.douban.com/v2/movie/coming_soon')
       .then((response) => {
         this.setState({ refreshing: false });
-        return response.json(); //
+        return response.json(); // 即将上映
       }).then((responseText) => {
         let arrData = responseText.subjects;
         let arrList = [];
