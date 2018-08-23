@@ -3,6 +3,7 @@ import { Dimensions, View, Text } from 'react-native';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 
 import SearchInput from './SearchInput';
+import SeekMovie from './SeekMovie'
 
 const { width, height } = Dimensions.get('window');
 
@@ -30,7 +31,7 @@ export default class PlayList extends Component {
           locked={true}
         >
           <View tabLabel='电影' style={{ marginBottom: 50 }}>
-            <Text>电影</Text>
+            <SeekMovie />
           </View>
           <View tabLabel='电视' style={{ marginBottom: 50 }}>
             <Text>电视</Text>
