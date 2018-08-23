@@ -76,7 +76,7 @@ export default class HotList extends Component {
                     flex: 1
                   }}>
                     <Image source={{
-                      uri: item.value.images.large.replace('webp', 'png')
+                      uri: item.value.images.large
                     }} style={{
                       width: 80,
                       height: 100
@@ -131,11 +131,6 @@ const styles = StyleSheet.create({
   },
   loadding: {
     marginTop: 100
-  },
-  star: {
-    width: 12,
-    height: 12,
-    marginRight: 2
   },
   hotList: {
     height: 130,
