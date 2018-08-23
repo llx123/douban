@@ -123,7 +123,7 @@ export default class SoonList extends Component {
                       flex: 1
                     }}>
                       <Image source={{
-                        uri: item.images.large.replace('webp', 'png')
+                        uri: item.images.large
                       }} style={{
                         width: 80,
                         height: 100

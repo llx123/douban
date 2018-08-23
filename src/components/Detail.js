@@ -191,7 +191,7 @@ export default class Detail extends Component {
                       <View
                         style={{ width: 140, height: 100, justifyContent: 'center', alignItems: 'center', marginRight: 6, backgroundColor: 'red' }}
                         key={i}>
-                        <Image source={{ uri: x.image.replace('webp', 'png') }} style={{ width: 140, height: 100 }} />
+                        <Image source={{ uri: x.image }} style={{ width: 140, height: 100 }} />
                       </View>
                     )
                   })}
