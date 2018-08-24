@@ -42,6 +42,15 @@ export default class SeekMovie extends Component {
       console.error(error);
     }
   }
+  fetchTop = async () => { // TOP250    
+    try {
+      let response = await fetch(`${baseUri}/top250`);
+      let responseJson = await response.json();
+      return responseJson.subjects;
+    } catch (error) {
+      console.error(error);
+    }
+  }
   render() {
     const { allData } = this.state
     return (
