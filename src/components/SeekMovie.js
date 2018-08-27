@@ -28,8 +28,9 @@ export default class SeekMovie extends Component {
   }
   fetchData = async () => {
     let hotData = await this.fetchHot()
+    let topData = await this.fetchTop()
     this.setState({
-      allData: [{ title: '', data: [{ data: hotData }]}],
+      allData: [{ title: '', data: [{ data: hotData },{ data: topData }]}],
       ready: false
     })
   }
@@ -85,7 +86,7 @@ export default class SeekMovie extends Component {
                               width: 80,
                               height: 100
                             }} />
-                            <Text style={styles.smallFont}>{item.title.slice(0, 6)}{item.title.length > 6 ? index : index}</Text>
+                            <Text style={styles.smallFont}>{item.title.slice(0, 6)}{item.title.length > 6 ? '...' : ''}</Text>
                             <View style={styles.star}>
                               <Star value={item.rating.stars} />
                               {item.rating.stars > 0 && <Text style={styles.smallFont}>{(item.rating.stars / 10).toFixed(1) + '分'}</Text>}
