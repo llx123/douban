@@ -20,7 +20,8 @@ export default class SeekMovie extends Component {
     super(props)
     this.state = {
       ready: true,
-      allData: [], //热门
+      allData: [],
+      offSetX: 0,
     }
   }
   componentDidMount() {
@@ -30,7 +31,7 @@ export default class SeekMovie extends Component {
     let hotData = await this.fetchHot()
     let topData = await this.fetchTop()
     this.setState({
-      allData: [{ title: '', data: [{ data: hotData },{ data: topData }]}],
+      allData: [{ title: '', data: [{ data: hotData }, { data: topData }] }],
       ready: false
     })
   }
@@ -59,10 +60,10 @@ export default class SeekMovie extends Component {
         {this.state.ready
           ? <ActivityIndicator size="large" style={styles.loadding} />
           : <View>
-            <View style={styles.movieTop}>
+            {/* <View style={styles.movieTop}>
               <Text>111</Text>
               <Text>222</Text>
-            </View>
+            </View> */}
             <SectionList
               sections={allData}
               keyExtractor={(item, index) => item + index}
@@ -79,7 +80,7 @@ export default class SeekMovie extends Component {
                     >
                       {item.data.map((item, index) => {
                         return (
-                          <View style={styles.hotItem} key={index.toString()+''+item.title}>
+                          <View style={styles.hotItem} key={index.toString() + '' + item.title}>
                             <Image source={{
                               uri: item.images.large
                             }} style={{
@@ -93,12 +94,38 @@ export default class SeekMovie extends Component {
                             </View>
                           </View>)
                       })}
-                    </ScrollView>}                    
+                    </ScrollView>}
+                    {index === 1 && <View>
+                      <ScrollView
+                        horizontal={true}
+                        pagingEnabled={true}
+                        contentContainerStyle={[styles.tabContainer]}
+                        showsHorizontalScrollIndicator={false}
+                        onMomentumScrollEnd={(e) => {
+                          let offSetX = e.nativeEvent.contentOffset.x;
+                          this.setState({
+                            offSetX
+                          })
+                        }}
+                      >
+                        <View style={styles.slide1}>
+                          <Text>{this.state.offSetX / width}</Text>
+                        </View>
+                        <View style={styles.slide2}>
+                          <Text>{this.state.offSetX / width}</Text>
+                        </View>
+                        <View style={styles.slide1}>
+                          <Text>{this.state.offSetX / width}</Text>
+                        </View>
+                        <View style={styles.slide2}>
+                          <Text>{this.state.offSetX / width}</Text>
+                        </View>
+                      </ScrollView>
+                    </View>}
                   </View>
                 )
               }}
             />
-            
           </View>}
       </View>
     )
@@ -110,7 +137,7 @@ const styles = StyleSheet.create({
     marginTop: 100
   },
   seekMovie: {
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
   },
   movieTop: {
     flexDirection: 'row',
@@ -141,4 +168,18 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginBottom: 3,
   },
+  tabContainer: {
+    marginLeft: -20,
+    paddingRight: 20
+  },
+  slide1: {
+    width: width,
+    height: 150,
+    backgroundColor: 'aqua'
+  },
+  slide2: {
+    width: width,
+    height: 150,
+    backgroundColor: '#ccc'
+  }
 })
