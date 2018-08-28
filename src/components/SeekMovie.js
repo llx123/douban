@@ -21,6 +21,7 @@ export default class SeekMovie extends Component {
     this.state = {
       ready: true,
       allData: [],
+      topData: [],
       offSetX: 0,
     }
   }
@@ -31,8 +32,9 @@ export default class SeekMovie extends Component {
     let hotData = await this.fetchHot()
     let topData = await this.fetchTop()
     this.setState({
-      allData: [{ title: '', data: [{ data: hotData }, { data: topData }] }],
-      ready: false
+      ready: false,
+      hotData,
+      topData
     })
   }
   fetchHot = async () => { // 电影热榜    
@@ -54,80 +56,78 @@ export default class SeekMovie extends Component {
     }
   }
   render() {
-    const { allData } = this.state
+    const { topData, hotData } = this.state
     return (
-      <View style={styles.seekMovie}>
+      <ScrollView>
         {this.state.ready
           ? <ActivityIndicator size="large" style={styles.loadding} />
-          : <View>
+          : <View style={styles.seekMovie}>
             {/* <View style={styles.movieTop}>
               <Text>111</Text>
               <Text>222</Text>
             </View> */}
-            <SectionList
-              sections={allData}
-              keyExtractor={(item, index) => item + index}
-              renderSectionHeader={({ section: { title } }) => (
-                <Text style={styles.sectionHeader}>{title}</Text>
-              )}
-              renderItem={({ item, index, section }) => {
+            <ScrollView
+              contentContainerStyle={styles.contentContainer}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              {hotData.map((item, index) => {
                 return (
-                  <View key={index.toString()}>
-                    {index === 0 && <ScrollView
-                      contentContainerStyle={styles.contentContainer}
-                      horizontal={true}
-                      showsHorizontalScrollIndicator={false}
-                    >
-                      {item.data.map((item, index) => {
-                        return (
-                          <View style={styles.hotItem} key={index.toString() + '' + item.title}>
-                            <Image source={{
-                              uri: item.images.large
-                            }} style={{
-                              width: 80,
-                              height: 100
-                            }} />
-                            <Text style={styles.smallFont}>{item.title.slice(0, 6)}{item.title.length > 6 ? '...' : ''}</Text>
-                            <View style={styles.star}>
-                              <Star value={item.rating.stars} />
-                              {item.rating.stars > 0 && <Text style={styles.smallFont}>{(item.rating.stars / 10).toFixed(1) + '分'}</Text>}
-                            </View>
-                          </View>)
-                      })}
-                    </ScrollView>}
-                    {index === 1 && <View>
-                      <ScrollView
-                        horizontal={true}
-                        pagingEnabled={true}
-                        contentContainerStyle={[styles.tabContainer]}
-                        showsHorizontalScrollIndicator={false}
-                        onMomentumScrollEnd={(e) => {
-                          let offSetX = e.nativeEvent.contentOffset.x;
-                          this.setState({
-                            offSetX
-                          })
-                        }}
-                      >
-                        <View style={styles.slide1}>
-                          <Text>{this.state.offSetX / width}</Text>
-                        </View>
-                        <View style={styles.slide2}>
-                          <Text>{this.state.offSetX / width}</Text>
-                        </View>
-                        <View style={styles.slide1}>
-                          <Text>{this.state.offSetX / width}</Text>
-                        </View>
-                        <View style={styles.slide2}>
-                          <Text>{this.state.offSetX / width}</Text>
-                        </View>
-                      </ScrollView>
-                    </View>}
-                  </View>
-                )
+                  <View style={styles.hotItem} key={index.toString() + '' + item.title}>
+                    <Image source={{
+                      uri: item.images.large
+                    }} style={{
+                      width: 80,
+                      height: 100
+                    }} />
+                    <Text style={styles.smallFont}>{item.title.slice(0, 6)}{item.title.length > 6 ? '...' : ''}</Text>
+                    <View style={styles.star}>
+                      <Star value={item.rating.stars} />
+                      {item.rating.stars > 0 && <Text style={styles.smallFont}>{(item.rating.stars / 10).toFixed(1) + '分'}</Text>}
+                    </View>
+                  </View>)
+              })}
+            </ScrollView>
+
+            <ScrollView
+              horizontal={true}
+              pagingEnabled={true}
+              contentContainerStyle={[styles.tabContainer]}
+              showsHorizontalScrollIndicator={false}
+              onMomentumScrollEnd={(e) => {
+                let offSetX = e.nativeEvent.contentOffset.x;
+                this.setState({
+                  offSetX
+                })
               }}
-            />
+            >
+              <View style={styles.slideTop}>
+                {
+                  topData.slice(0, 4).map((item, index) => {
+                    return <View key={index + '' + item.title} style={styles.renderTitle}>
+                      <Text>{index + 1}</Text>
+                      <Image source={{
+                        uri: item.images.small
+                      }} style={{
+                        width: 40,
+                      }} />
+                      <View >
+                        <Text>{item.title}</Text>
+                        <View style={{flexDirection: 'row'}}>
+                          <Star value={item.rating.stars} />
+                          {item.rating.stars > 0 && <Text style={styles.smallFont}>{(item.rating.stars / 10).toFixed(1)}</Text>}
+                        </View>
+                      </View>
+                    </View>
+                  })
+                }
+              </View>
+              <View style={styles.slide2}>
+                <Text>{this.state.offSetX / width}</Text>
+              </View>
+            </ScrollView>
           </View>}
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     marginTop: 100
   },
   seekMovie: {
-    // paddingHorizontal: 10,
+    paddingBottom: 50,
   },
   movieTop: {
     flexDirection: 'row',
@@ -172,14 +172,21 @@ const styles = StyleSheet.create({
     marginLeft: -20,
     paddingRight: 20
   },
-  slide1: {
+  slideTop: {
     width: width,
-    height: 150,
+    height: 260,
+    paddingLeft: 20,
     backgroundColor: 'aqua'
   },
   slide2: {
     width: width,
     height: 150,
     backgroundColor: '#ccc'
+  },
+  renderTitle: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingLeft: 20,
+    marginVertical: 10
   }
 })
