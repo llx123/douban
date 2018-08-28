@@ -55,8 +55,16 @@ export default class SeekMovie extends Component {
       console.error(error);
     }
   }
+  renderSectionTitle(index) {
+    switch (index) {
+      case 0:
+        return '豆瓣TOP250'
+      case 1:
+        return '口碑榜'
+    }
+  }
   render() {
-    const { topData, hotData } = this.state
+    const { topData, hotData, offSetX } = this.state
     return (
       <ScrollView>
         {this.state.ready
@@ -80,47 +88,51 @@ export default class SeekMovie extends Component {
                       width: 80,
                       height: 100
                     }} />
-                    <Text style={styles.smallFont}>{item.title.slice(0, 6)}{item.title.length > 6 ? '...' : ''}</Text>
+                    <View style={{ width: 80, justifyContent: 'flex-start' }}>
+                      <Text style={[styles.smallFont, { marginTop: 3, fontWeight: '600', color: '#000' }]}>{item.title.slice(0, 6)}{item.title.length > 6 ? '...' : ''}</Text>
+                    </View>
                     <View style={styles.star}>
                       <Star value={item.rating.stars} />
-                      {item.rating.stars > 0 && <Text style={styles.smallFont}>{(item.rating.stars / 10).toFixed(1) + '分'}</Text>}
+                      {item.rating.stars > 0 && <Text style={styles.smallFont}>{(item.rating.stars / 10).toFixed(1)}</Text>}
                     </View>
                   </View>)
               })}
             </ScrollView>
-
+            <View style={{paddingLeft: 20}}>
+              <Text>{this.renderSectionTitle(Math.floor(offSetX))}</Text>
+            </View>
             <ScrollView
               horizontal={true}
               pagingEnabled={true}
               contentContainerStyle={[styles.tabContainer]}
               showsHorizontalScrollIndicator={false}
               onMomentumScrollEnd={(e) => {
-                let offSetX = e.nativeEvent.contentOffset.x;
+                let offSetX = e.nativeEvent.contentOffset.x / width;
                 this.setState({
                   offSetX
                 })
               }}
             >
               <View style={styles.slideTop}>
-                {
-                  topData.slice(0, 4).map((item, index) => {
-                    return <View key={index + '' + item.title} style={styles.renderTitle}>
-                      <Text>{index + 1}</Text>
-                      <Image source={{
-                        uri: item.images.small
-                      }} style={{
-                        width: 40,
-                      }} />
-                      <View >
-                        <Text>{item.title}</Text>
-                        <View style={{flexDirection: 'row'}}>
-                          <Star value={item.rating.stars} />
-                          {item.rating.stars > 0 && <Text style={styles.smallFont}>{(item.rating.stars / 10).toFixed(1)}</Text>}
-                        </View>
+                {topData.slice(0, 4).map((item, index) => {
+                  return <View key={index + '' + item.title} style={styles.renderTitle}>
+                    <Text>{index + 1}</Text>
+                    <Image source={{
+                      uri: item.images.small
+                    }} style={{
+                      width: 40,
+                      marginHorizontal: 10
+                    }} />
+                    <View >
+                      <Text>{item.title}</Text>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Star value={item.rating.stars} />
+                        {item.rating.stars > 0 && <Text style={styles.smallFont}>{(item.rating.stars / 10).toFixed(1)}</Text>}
+                        <Text style={styles.smallFont}> {item.collect_count} 人评价</Text>
                       </View>
                     </View>
-                  })
-                }
+                  </View>
+                })}
               </View>
               <View style={styles.slide2}>
                 <Text>{this.state.offSetX / width}</Text>
@@ -158,7 +170,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   smallFont: {
-    lineHeight: 18,
+    lineHeight: 15,
     color: '#A6A6A6',
     fontSize: 10
   },
@@ -175,8 +187,7 @@ const styles = StyleSheet.create({
   slideTop: {
     width: width,
     height: 260,
-    paddingLeft: 20,
-    backgroundColor: 'aqua'
+    paddingLeft: 20
   },
   slide2: {
     width: width,
