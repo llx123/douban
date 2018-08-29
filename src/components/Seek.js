@@ -4,6 +4,7 @@ import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-vi
 
 import SearchInput from './SearchInput';
 import SeekMovie from './SeekMovie'
+import SeekTv from './SeekTv'
 
 const { width, height } = Dimensions.get('window');
 
@@ -34,7 +35,7 @@ export default class PlayList extends Component {
             <SeekMovie />
           </View>
           <View tabLabel='电视' style={{ marginBottom: 50 }}>
-            <Text>电视</Text>
+            <SeekTv />
           </View>
         </ScrollableTabView>
       </View>
