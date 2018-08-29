@@ -13,7 +13,7 @@ import {
 import Star from './Star';
 
 const { width, height } = Dimensions.get('window');
-const baseUri = 'https://api.douban.com/v2/movie/';
+const baseUri = 'https://api.douban.com/v2/movie';
 
 export default class SeekMovie extends Component {
   constructor(props) {
@@ -22,11 +22,15 @@ export default class SeekMovie extends Component {
       ready: true,
       allData: [],
       topData: [],
+      weeklyData: [],
+      usData: [],
       offSetX: 0,
     }
   }
   componentDidMount() {
-    this.fetchData()
+    this.fetchData() // 同步数据获取
+    // this.fetchWeekly() // 口碑榜
+    this.fetchUs() //北美票房
   }
   fetchData = async () => {
     let hotData = await this.fetchHot()
@@ -55,16 +59,40 @@ export default class SeekMovie extends Component {
       console.error(error);
     }
   }
+  fetchWeekly() {
+    fetch(`${baseUri}/weekly`)
+      .then((response) => {
+        this.setState({ refreshing: false });
+        return response.json();
+      }).then((responseText) => {
+        let arrData = responseText.subjects;
+        this.setState({ weeklyData: arrData });
+      }).catch((error) => {
+        console.error(error);
+      });
+  }
+  fetchUs() {
+    fetch(`${baseUri}/us_box`)
+      .then((response) => {
+        this.setState({ refreshing: false });
+        return response.json();
+      }).then((responseText) => {
+        let arrData = responseText.subjects;
+        this.setState({ usData: arrData });
+      }).catch((error) => {
+        console.error(error);
+      });
+  }
   renderSectionTitle(index) {
     switch (index) {
       case 0:
         return '豆瓣TOP250'
       case 1:
-        return '口碑榜'
+        return '本周口碑榜'
     }
   }
   render() {
-    const { topData, hotData, offSetX } = this.state
+    const { topData, hotData, weeklyData, usData, offSetX } = this.state
     return (
       <ScrollView>
         {this.state.ready
@@ -98,8 +126,8 @@ export default class SeekMovie extends Component {
                   </View>)
               })}
             </ScrollView>
-            <View style={{paddingLeft: 20}}>
-              <Text>{this.renderSectionTitle(Math.floor(offSetX))}</Text>
+            <View style={{ paddingLeft: 20 }}>
+              <Text>{this.renderSectionTitle(Math.round(offSetX))}{this.state.offSet}</Text>
             </View>
             <ScrollView
               horizontal={true}
@@ -107,9 +135,10 @@ export default class SeekMovie extends Component {
               contentContainerStyle={[styles.tabContainer]}
               showsHorizontalScrollIndicator={false}
               onMomentumScrollEnd={(e) => {
-                let offSetX = e.nativeEvent.contentOffset.x / width;
+                let offSet = e.nativeEvent.contentOffset.x;
                 this.setState({
-                  offSetX
+                  offSetX: offSet / width,
+                  offSet
                 })
               }}
             >
@@ -123,19 +152,58 @@ export default class SeekMovie extends Component {
                       width: 40,
                       marginHorizontal: 10
                     }} />
-                    <View >
+                    <View>
                       <Text>{item.title}</Text>
                       <View style={{ flexDirection: 'row' }}>
                         <Star value={item.rating.stars} />
                         {item.rating.stars > 0 && <Text style={styles.smallFont}>{(item.rating.stars / 10).toFixed(1)}</Text>}
-                        <Text style={styles.smallFont}> {item.collect_count} 人评价</Text>
+                        <Text style={styles.smallFont}> {item.collect_count}人评价</Text>
                       </View>
                     </View>
                   </View>
                 })}
               </View>
-              <View style={styles.slide2}>
-                <Text>{this.state.offSetX / width}</Text>
+              {false && <View style={styles.slideTop}>
+                {weeklyData.slice(0, 4).map((item, index) => {
+                  return <View key={index + '' + item.title} style={styles.renderTitle}>
+                    <Text>{index + 1}</Text>
+                    <Image source={{
+                      uri: item.images.small
+                    }} style={{
+                      width: 40,
+                      marginHorizontal: 10
+                    }} />
+                    <View >
+                      <Text>{item.title}</Text>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Star value={item.rating.stars} />
+                        {item.rating.stars > 0 && <Text style={styles.smallFont}>{(item.rating.stars / 10).toFixed(1)}</Text>}
+                        <Text style={styles.smallFont}> {item.collect_count}人评价</Text>
+                      </View>
+                    </View>
+                  </View>
+                })}
+              </View>}
+              <View style={styles.slideTop}>
+                {usData.slice(0, 4).map((item, index) => {
+                  return <View key={index + '' + item.subject.title} style={styles.renderTitle}>
+                    <Text>{index + 1}</Text>
+                    <Image source={{
+                      uri: item.subject.images.small
+                    }} style={{
+                      width: 40,
+                      marginHorizontal: 10
+                    }} />
+                    <View >
+                      <Text>{item.subject.title}</Text>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Star value={item.subject.rating.stars} />
+                        {item.subject.rating.stars > 0 && <Text style={styles.smallFont}>{(item.subject.rating.stars / 10).toFixed(1)}</Text>}
+                        <Text style={styles.smallFont}> {item.subject.collect_count}人评价</Text>
+                      </View>
+                    </View>
+                  </View>
+                })}
               </View>
             </ScrollView>
           </View>}
@@ -181,23 +249,14 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   tabContainer: {
-    marginLeft: -20,
-    paddingRight: 20
+    backgroundColor: 'red'
   },
   slideTop: {
-    width: width,
+    width,
     height: 260,
-    paddingLeft: 20
-  },
-  slide2: {
-    width: width,
-    height: 150,
-    backgroundColor: '#ccc'
   },
   renderTitle: {
     flex: 1,
     flexDirection: 'row',
-    paddingLeft: 20,
-    marginVertical: 10
   }
 })
