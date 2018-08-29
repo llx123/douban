@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Text,
-  SectionList,
   ScrollView,
   Image,
   ActivityIndicator,
@@ -11,6 +10,7 @@ import {
 } from 'react-native';
 
 import Star from './Star';
+import Icon from "react-native-vector-icons/Ionicons";
 
 const { width, height } = Dimensions.get('window');
 const baseUri = 'https://api.douban.com/v2/movie';
@@ -98,10 +98,10 @@ export default class SeekMovie extends Component {
         {this.state.ready
           ? <ActivityIndicator size="large" style={styles.loadding} />
           : <View style={styles.seekMovie}>
-            {/* <View style={styles.movieTop}>
+            <View style={styles.movieTop}>
               <Text>111</Text>
               <Text>222</Text>
-            </View> */}
+            </View>
             <ScrollView
               contentContainerStyle={styles.contentContainer}
               horizontal={true}
@@ -127,22 +127,22 @@ export default class SeekMovie extends Component {
               })}
             </ScrollView>
             <View style={{ paddingLeft: 20 }}>
-              <Text>{this.renderSectionTitle(Math.round(offSetX))}{this.state.offSet}</Text>
+              <Text>{this.renderSectionTitle(Math.round(offSetX))}</Text>
             </View>
             <ScrollView
               horizontal={true}
               pagingEnabled={true}
+              alwaysBounceHorizontal={true}
               contentContainerStyle={[styles.tabContainer]}
               showsHorizontalScrollIndicator={false}
               onMomentumScrollEnd={(e) => {
                 let offSet = e.nativeEvent.contentOffset.x;
                 this.setState({
-                  offSetX: offSet / width,
-                  offSet
+                  offSetX: offSet / width
                 })
               }}
             >
-              <View style={styles.slideTop}>
+              <View style={[styles.slideTop, { paddingLeft: 20, marginRight: -25 }]}>
                 {topData.slice(0, 4).map((item, index) => {
                   return <View key={index + '' + item.title} style={styles.renderTitle}>
                     <Text>{index + 1}</Text>
@@ -152,13 +152,18 @@ export default class SeekMovie extends Component {
                       width: 40,
                       marginHorizontal: 10
                     }} />
-                    <View>
-                      <Text>{item.title}</Text>
-                      <View style={{ flexDirection: 'row' }}>
-                        <Star value={item.rating.stars} />
-                        {item.rating.stars > 0 && <Text style={styles.smallFont}>{(item.rating.stars / 10).toFixed(1)}</Text>}
-                        <Text style={styles.smallFont}> {item.collect_count}人评价</Text>
+                    <View style={styles.rightContent}>
+                      <View>
+                        <Text>{item.title}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                          <Star value={item.rating.stars} />
+                          {item.rating.stars > 0 && <Text style={styles.smallFont}>{(item.rating.stars / 10).toFixed(1)}</Text>}
+                          <Text style={styles.smallFont}> {item.collect_count}人评价</Text>
+                        </View>
                       </View>
+                      {index%2===0&&<View>
+                        <Icon name="ios-arrow-round-up" size={20} color={'red'} />
+                      </View>}
                     </View>
                   </View>
                 })}
@@ -173,7 +178,7 @@ export default class SeekMovie extends Component {
                       width: 40,
                       marginHorizontal: 10
                     }} />
-                    <View >
+                    <View style={styles.rightContent}>
                       <Text>{item.title}</Text>
                       <View style={{ flexDirection: 'row' }}>
                         <Star value={item.rating.stars} />
@@ -194,13 +199,18 @@ export default class SeekMovie extends Component {
                       width: 40,
                       marginHorizontal: 10
                     }} />
-                    <View >
-                      <Text>{item.subject.title}</Text>
-                      <View style={{ flexDirection: 'row' }}>
-                        <Star value={item.subject.rating.stars} />
-                        {item.subject.rating.stars > 0 && <Text style={styles.smallFont}>{(item.subject.rating.stars / 10).toFixed(1)}</Text>}
-                        <Text style={styles.smallFont}> {item.subject.collect_count}人评价</Text>
+                    <View style={styles.rightContent}>
+                      <View>
+                        <Text>{item.subject.title}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                          <Star value={item.subject.rating.stars} />
+                          {item.subject.rating.stars > 0 && <Text style={styles.smallFont}>{(item.subject.rating.stars / 10).toFixed(1)}</Text>}
+                          <Text style={styles.smallFont}> {item.subject.collect_count}人评价</Text>
+                        </View>
                       </View>
+                      {index%2!==0&&<View>
+                        <Icon name="ios-arrow-round-up" size={20} color={'red'} />
+                      </View>}
                     </View>
                   </View>
                 })}
@@ -226,7 +236,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20
   },
   contentContainer: {
-    width: width * 3,
+    width: width * 2.88,
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingVertical: 20,
@@ -249,14 +259,22 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   tabContainer: {
-    backgroundColor: 'red'
+
   },
   slideTop: {
-    width,
+    width: width * 0.95,
     height: 260,
   },
   renderTitle: {
     flex: 1,
+    paddingVertical: 10,
     flexDirection: 'row',
+  },
+  rightContent: {
+    width: width * 0.6,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
   }
 })
