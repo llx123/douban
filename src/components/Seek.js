@@ -32,10 +32,10 @@ export default class PlayList extends Component {
           locked={true}
         >
           <View tabLabel='电影' style={{ marginBottom: 50 }}>
-            <SeekMovie />
+            <SeekMovie navigation={this.props.navigation}/>
           </View>
           <View tabLabel='电视' style={{ marginBottom: 50 }}>
-            <SeekTv />
+            <SeekTv navigation={this.props.navigation}/>
           </View>
         </ScrollableTabView>
       </View>
