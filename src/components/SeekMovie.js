@@ -99,8 +99,30 @@ export default class SeekMovie extends Component {
           ? <ActivityIndicator size="large" style={styles.loadding} />
           : <View style={styles.seekMovie}>
             <View style={styles.movieTop}>
-              <Text>111</Text>
-              <Text>222</Text>
+              <View style={[styles.topContent, { borderRightWidth: 1, borderRightColor: '#ccc' }]}>
+                <View style={[styles.topConLeft, { backgroundColor: 'purple' }]}>
+                  <Icon name="ios-menu" size={16} color={'#fff'} />
+                </View>
+                <View>
+                  <Text style={{fontWeight: '600'}}>找电影</Text>
+                  <Text style={{fontSize: 12}}>科幻/美国/治愈</Text>
+                </View>
+                <View>
+                  <Icon name="ios-arrow-forward" size={20} color={'red'} />
+                </View>
+              </View>
+              <View style={styles.topContent}>
+                <View style={[styles.topConLeft, { backgroundColor: 'pink' }]}>
+                  <Icon name="ios-heart" size={16} color={'red'} />
+                </View>
+                <View>
+                  <Text style={{fontWeight: '600'}}>我的影视</Text>
+                  <Text style={{fontSize: 12}}>未登录</Text>
+                </View>
+                <View>
+                  <Icon name="ios-arrow-forward" size={20} color={'red'} />
+                </View>
+              </View>
             </View>
             <ScrollView
               contentContainerStyle={styles.contentContainer}
@@ -161,7 +183,7 @@ export default class SeekMovie extends Component {
                           <Text style={styles.smallFont}> {item.collect_count}人评价</Text>
                         </View>
                       </View>
-                      {index%2===0&&<View>
+                      {index % 2 === 0 && <View>
                         <Icon name="ios-arrow-round-up" size={20} color={'red'} />
                       </View>}
                     </View>
@@ -208,7 +230,7 @@ export default class SeekMovie extends Component {
                           <Text style={styles.smallFont}> {item.subject.collect_count}人评价</Text>
                         </View>
                       </View>
-                      {index%2!==0&&<View>
+                      {index % 2 !== 0 && <View>
                         <Icon name="ios-arrow-round-up" size={20} color={'red'} />
                       </View>}
                     </View>
@@ -216,6 +238,9 @@ export default class SeekMovie extends Component {
                 })}
               </View>
             </ScrollView>
+            <View>
+              <Text>111</Text>
+            </View>
           </View>}
       </ScrollView>
     )
@@ -232,8 +257,20 @@ const styles = StyleSheet.create({
   movieTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: 'aqua',
     paddingVertical: 20
+  },
+  topContent: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  topConLeft: {
+    width: 26,
+    height: 26,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 13
   },
   contentContainer: {
     width: width * 2.88,
