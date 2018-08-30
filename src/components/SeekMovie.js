@@ -7,6 +7,7 @@ import {
   Image,
   ActivityIndicator,
   Dimensions,
+  TouchableOpacity
 } from 'react-native';
 
 import Star from './Star';
@@ -91,6 +92,10 @@ export default class SeekMovie extends Component {
         return '本周口碑榜'
     }
   }
+  toLogin() { //登录页
+    const { navigate } = this.props.navigation;
+    navigate('Login')
+  }
   render() {
     const { topData, hotData, weeklyData, usData, offSetX } = this.state
     return (
@@ -99,30 +104,30 @@ export default class SeekMovie extends Component {
           ? <ActivityIndicator size="large" style={styles.loadding} />
           : <View style={styles.seekMovie}>
             <View style={styles.movieTop}>
-              <View style={[styles.topContent, { borderRightWidth: 1, borderRightColor: '#ccc' }]}>
+              <TouchableOpacity style={[styles.topContent, { borderRightWidth: 1, borderRightColor: '#ccc' }]}>                            
                 <View style={[styles.topConLeft, { backgroundColor: 'purple' }]}>
                   <Icon name="ios-menu" size={16} color={'#fff'} />
                 </View>
                 <View>
-                  <Text style={{fontWeight: '600'}}>找电影</Text>
-                  <Text style={{fontSize: 12}}>科幻/美国/治愈</Text>
+                  <Text style={{ fontWeight: '600' }}>找电影</Text>
+                  <Text style={{ fontSize: 12 }}>科幻/美国/治愈</Text>
                 </View>
                 <View>
                   <Icon name="ios-arrow-forward" size={20} color={'red'} />
                 </View>
-              </View>
-              <View style={styles.topContent}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.topContent} onPress={this.toLogin.bind(this)}>
                 <View style={[styles.topConLeft, { backgroundColor: 'pink' }]}>
                   <Icon name="ios-heart" size={16} color={'red'} />
                 </View>
                 <View>
-                  <Text style={{fontWeight: '600'}}>我的影视</Text>
-                  <Text style={{fontSize: 12}}>未登录</Text>
+                  <Text style={{ fontWeight: '600' }}>我的影视</Text>
+                  <Text style={{ fontSize: 12 }}>未登录</Text>
                 </View>
                 <View>
                   <Icon name="ios-arrow-forward" size={20} color={'red'} />
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
             <ScrollView
               contentContainerStyle={styles.contentContainer}
@@ -238,8 +243,8 @@ export default class SeekMovie extends Component {
                 })}
               </View>
             </ScrollView>
-            <View>
-              <Text>111</Text>
+            <View style={{flexDirection: 'row', justifyContent:'center'}}>
+              <Text>全部{Math.round(offSetX)===0?250:10}部</Text>
             </View>
           </View>}
       </ScrollView>
