@@ -12,6 +12,7 @@ import Mine from './components/Mine';
 import Detail from './components/Detail';
 import Seek from './components/Seek';
 import Search from './components/Search';
+import Login from './common/Login';
 
 const BottomTab = createBottomTabNavigator({
   MovieList: {
@@ -67,7 +68,8 @@ const MyApp = createStackNavigator({
     }
   },
   Detail,
-  Search
+  Search,
+  Login
 }, {
     headerMode: 'screen',
     // headerMode: 'none',
