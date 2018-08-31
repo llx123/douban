@@ -244,7 +244,7 @@ export default class SeekMovie extends Component {
               </View>
             </ScrollView>
             <View style={{flexDirection: 'row', justifyContent:'center'}}>
-              <Text>全部{Math.round(offSetX)===0?250:10}部</Text>
+              <Text onPress={()=>alert('navigate to')}>全部{Math.round(offSetX)===0?250:10}部</Text>
             </View>
           </View>}
       </ScrollView>
