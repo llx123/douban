@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Dimensions,
   TextInput,
-  Button
+  Button,
+  Keyboard
 } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 const { width } = Dimensions.get('window');
@@ -16,6 +17,20 @@ class Login extends Component {
     this.state = {
       isFocus: 0
     }
+  }
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+  }
+  componentWillUnmount () {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+  _keyboardDidShow () {
+    // alert('Keyboard Shown');
+  }
+  _keyboardDidHide () {
+    // alert('Keyboard Hidden');
   }
   static navigationOptions = ({ navigation }) => ({
     header: null
