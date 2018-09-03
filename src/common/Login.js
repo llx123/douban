@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   Dimensions,
-  TextInput
+  TextInput,
+  Button
 } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 const { width } = Dimensions.get('window');
@@ -27,7 +28,7 @@ class Login extends Component {
           <Icon name="ios-arrow-back" size={20} color={'green'} onPress={() => this.props.navigation.goBack()} />
         </View>
         <View style={{ width, paddingHorizontal: 20, alignItems: 'center' }}>
-          <Text style={{ fontSize: 36, color: 'green' }}>欢迎来到豆瓣</Text>
+          <Text style={{ fontSize: 36, color: 'green', paddingBottom: 30 }}>欢迎来到豆瓣</Text>
           <TextInput
             style={[styles.loginInput,{borderBottomColor: isFocus===1?'green':'#ccc'}]}
             underlineColorAndroid='transparent'
@@ -45,13 +46,26 @@ class Login extends Component {
             placeholderTextColor='#ccc'
           />
           <View>
-            <Text>111</Text>
-            <Text>222</Text>
+            <View style={{width: width*0.9, paddingVertical: 30}}>
+              <Button
+                onPress={()=>{alert(1)}}
+                title="登录"
+                color="green"
+              />
+            </View>
+            <View style={styles.middleBottom}>
+              <Text style={{color:'green'}}>注册豆瓣</Text>
+              <Text style={{paddingHorizontal: 15}}>|</Text>
+              <Text>忘记密码</Text>
+            </View>
           </View>
         </View>
         <View>
-          <Text>bottom</Text>
-          <Text>bottom</Text>
+        <View style={[styles.middleBottom,{paddingBottom: 15}]}>
+          <Text><Icon name="logo-github" size={20} /> 微信登录</Text>
+          <Text style={{paddingHorizontal: 50}}>|</Text>
+          <Text><Icon name="logo-github" size={20} /> 微博登录</Text>
+        </View>
         </View>
       </View>
     )
@@ -69,6 +83,10 @@ const styles = StyleSheet.create({
     width: width*0.9,
     height: 40,
     borderBottomWidth: 2
+  },
+  middleBottom: {
+    flexDirection:'row',
+    justifyContent: 'center'
   }
 })
 
