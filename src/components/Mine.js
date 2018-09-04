@@ -22,7 +22,6 @@ export default class My extends Component {
     }
   }  
   componentDidMount() {
-
   }
   render() {
     const { navigate } = this.props.navigation;
