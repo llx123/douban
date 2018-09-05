@@ -14,14 +14,14 @@
 │  │   ├── common
 │  │   └── RenderList.js                                    影片排行组件
 │  ├── store                                                状态存储
-│  │   ├── action                                         
+│  │   ├── action                                           actions
 │  │   │   └── index.js                                        
-│  │   ├── constants                                        
+│  │   ├── constants                                        常量
 │  │   │   └── index.js                                         
-│  │   ├── reducers                                        
+│  │   ├── reducers                                         reducers
 │  │   │   ├── index.js                                        
-│  │   │   └── login.js                                                                         
-│  │   ├── index.js                                        
+│  │   │   └── login.js                                     登录                   
+│  │   ├── index.js                                         configureStore
 │  ├── components
 │  │   ├── Detail.js                                        影片详情页
 │  │   ├── HotList.js                                       热门列表
