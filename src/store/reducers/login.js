@@ -1,7 +1,7 @@
 import * as types from '../constants'
 
 const initialState = {
-  userName: ''
+  userName: null
 }
 const login = (state = initialState, action) => {
   switch (action.type) {

@@ -39,10 +39,11 @@ class Login extends Component {
   });
   render() {
     const { isFocus } = this.state
+    const { navigatenavigate, goBack } = this.props.navigation;    
     return (
       <View style={styles.container}>
         <View style={{ width, flexDirection: 'row', justifyContent: 'flex-start', paddingVertical: 10, paddingLeft: 10 }}>
-          <Icon name="ios-arrow-back" size={20} color={'green'} onPress={() => this.props.navigation.goBack()} />
+          <Icon name="ios-arrow-back" size={20} color={'green'} onPress={() => goBack()} />
         </View>
         <View style={{ width, paddingHorizontal: 20, alignItems: 'center' }}>
           <Text style={{ fontSize: 36, color: 'green', paddingBottom: 30 }}>
@@ -68,8 +69,9 @@ class Login extends Component {
             <View style={{width: width*0.9, paddingVertical: 30}}>
               <Button
                 onPress={()=>{
-                  this.props.login('1111111')
-                  alert(JSON.stringify(this.props))
+                  this.props.login('user');
+                  goBack();
+                  // navigate('Seek');
                 }}
                 title="登录"
                 color="green"

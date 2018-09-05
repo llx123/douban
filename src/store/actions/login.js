@@ -1,5 +1,6 @@
 import * as types from '../constants'
 
-export const doLogin = () => ({
-  type: types.LOGIN
+export const doLogin = (payload) => ({
+  type: types.LOGIN,
+  payload
 })

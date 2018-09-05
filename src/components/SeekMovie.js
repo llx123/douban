@@ -94,10 +94,16 @@ export default class SeekMovie extends Component {
   }
   toLogin() { //登录页
     const { navigate } = this.props.navigation;
-    navigate('Login')
+    const { userName } = this.props.state.login;
+    if(userName) {
+      navigate('Mine')
+    } else {
+      navigate('Login')
+    }    
   }
   render() {
     const { topData, hotData, weeklyData, usData, offSetX } = this.state
+    const { userName } = this.props.state.login;
     return (
       <ScrollView>
         {this.state.ready
@@ -122,7 +128,7 @@ export default class SeekMovie extends Component {
                 </View>
                 <View>
                   <Text style={{ fontWeight: '600' }}>我的影视</Text>
-                  <Text style={{ fontSize: 12 }}>未登录</Text>
+                  <Text style={{ fontSize: 12 }}>{userName?userName:'未登录'}</Text>
                 </View>
                 <View>
                   <Icon name="ios-arrow-forward" size={20} color={'red'} />

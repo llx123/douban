@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Dimensions, View, Text } from 'react-native';
+import { connect } from 'react-redux';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 
 import SearchInput from './SearchInput';
@@ -8,7 +9,7 @@ import SeekTv from './SeekTv'
 
 const { width, height } = Dimensions.get('window');
 
-export default class PlayList extends Component {
+class Seek extends Component {
   static navigationOptions = {
     header: null
   };
@@ -32,7 +33,7 @@ export default class PlayList extends Component {
           locked={true}
         >
           <View tabLabel='电影' style={{ marginBottom: 50 }}>
-            <SeekMovie navigation={this.props.navigation}/>
+            <SeekMovie navigation={this.props.navigation} state={this.props.state}/>
           </View>
           <View tabLabel='电视' style={{ marginBottom: 50 }}>
             <SeekTv navigation={this.props.navigation}/>
@@ -42,3 +43,9 @@ export default class PlayList extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  state
+})
+
+export default connect(mapStateToProps)(Seek)
