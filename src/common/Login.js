@@ -8,6 +8,8 @@ import {
   Button,
   Keyboard
 } from 'react-native';
+import { connect } from 'react-redux';
+import { doLogin } from '../store/actions/login';
 import Icon from "react-native-vector-icons/Ionicons";
 const { width } = Dimensions.get('window');
 
@@ -43,7 +45,9 @@ class Login extends Component {
           <Icon name="ios-arrow-back" size={20} color={'green'} onPress={() => this.props.navigation.goBack()} />
         </View>
         <View style={{ width, paddingHorizontal: 20, alignItems: 'center' }}>
-          <Text style={{ fontSize: 36, color: 'green', paddingBottom: 30 }}>欢迎来到豆瓣</Text>
+          <Text style={{ fontSize: 36, color: 'green', paddingBottom: 30 }}>
+            欢迎来到豆瓣
+          </Text>
           <TextInput
             style={[styles.loginInput,{borderBottomColor: isFocus===1?'green':'#ccc'}]}
             underlineColorAndroid='transparent'
@@ -63,7 +67,10 @@ class Login extends Component {
           <View>
             <View style={{width: width*0.9, paddingVertical: 30}}>
               <Button
-                onPress={()=>{alert(1)}}
+                onPress={()=>{
+                  this.props.login('1111111')
+                  alert(JSON.stringify(this.props))
+                }}
                 title="登录"
                 color="green"
               />
@@ -105,4 +112,12 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Login
+const mapStateToProps = state => ({
+  state
+})
+
+const mapDispatchToProps = dispatch => ({
+  login: (payload) => dispatch(doLogin(payload))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
