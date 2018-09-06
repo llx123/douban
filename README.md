@@ -38,12 +38,9 @@
 │  └── index.js                                             navigation配置
 └── yarn.lock
 ```
-# 效果图
-##热映列表及即将上映吸顶效果
-![](./src/img/hot.gif)
+## 效果图
+![](./src/img/hot.gif '热映列表及即将上映吸顶效果')
 
-##找片页面及登录页react-redux状态管理
-![](./src/img/seek.gif)
+![](./src/img/seek.gif '找片页面及登录页react-redux状态管理')
 
-##我的模块及react-redux登录状态管理
-![](./src/img/mine.gif)
+![](./src/img/mine.gif '我的模块及react-redux登录状态管理')
