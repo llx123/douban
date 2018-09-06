@@ -39,9 +39,9 @@
 └── yarn.lock
 ```
 ## 效果图
-<p style="color: #AD5D0F;font-size: 30px; font-family: '宋体';">热映列表及即将上映吸顶效果</p>
+
 ![](./src/img/hot.gif '热映列表及即将上映吸顶效果')
-<p style="color: #AD5D0F;font-size: 30px; font-family: '宋体';">找片页面及登录页react-redux状态管理</p>
+
 ![](./src/img/seek.gif '找片页面及登录页react-redux状态管理')
-<p style="color: #AD5D0F;font-size: 30px; font-family: '宋体';">我的模块及react-redux登录状态管理</p>
+
 ![](./src/img/mine.gif '我的模块及react-redux登录状态管理')
