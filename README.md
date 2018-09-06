@@ -1,4 +1,4 @@
-# ReactNative 仿2018豆瓣电影-Android
+# ReactNative 仿豆瓣-Android (2018年8月安卓版)
 ## 运行
  - 先确保你已安装好了React Native 所需的依赖环境 并且连接移动(虚拟)设备
  - 在根目录下执行 npm install
@@ -38,10 +38,12 @@
 │  └── index.js                                             navigation配置
 └── yarn.lock
 ```
-## 效果图
-###热映列表及即将上映吸顶效果
+# 效果图
+##热映列表及即将上映吸顶效果
 ![](./src/img/hot.gif)
-###找片页面及登录页react-redux状态管理
+
+##找片页面及登录页react-redux状态管理
 ![](./src/img/seek.gif)
-###我的模块及react-redux登录状态管理
+
+##我的模块及react-redux登录状态管理
 ![](./src/img/mine.gif)
