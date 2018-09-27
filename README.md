@@ -3,6 +3,10 @@
  - 先确保你已安装好了React Native 所需的依赖环境 并且连接移动(虚拟)设备
  - 在根目录下执行 npm install
  - 在执行 react-native run-android
+### 学习资源
+- React Native中文网：[React Native中文网](https://reactnative.cn/)
+- navigation学习资源：[React Navigation](https://reactnavigation.org/en/)
+- Icon 图标：[ionicons](https://ionicons.com/)
 ```
 ├── README.md
 ├── index.js
